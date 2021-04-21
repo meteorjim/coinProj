@@ -6,8 +6,8 @@ import datetime
 import pandas as pd
 from huobi.client.market import MarketClient
 from huobi.client.generic import GenericClient
-os.environ.update({"HTTP_PROXY":"socks5h://127.0.0.1:12315"})
-os.environ.update({"HTTPS_PROXY":"socks5h://127.0.0.1:12315"})
+# os.environ.update({"HTTP_PROXY":"socks5h://127.0.0.1:12315"})
+# os.environ.update({"HTTPS_PROXY":"socks5h://127.0.0.1:12315"})
 market_client = MarketClient(url="https://api-aws.huobi.pro")
 
 CLOSE_MEAN_CHANGING_RATE = 0.20
