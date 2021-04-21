@@ -1,13 +1,16 @@
-__all__ = ["get_price", "get_mean_line", "custom_data_analyze_func", "get_rate", "get_symbol_list"]
+__all__ = ["get_price", "get_mean_line", "custom_data_analyze_func", "get_rate", "get_symbol_list", "draw_candle"]
+
+import datetime
+import os
 
 import numpy as np
-import os
-import datetime
 import pandas as pd
-from huobi.client.market import MarketClient
 from huobi.client.generic import GenericClient
-# os.environ.update({"HTTP_PROXY":"socks5h://127.0.0.1:12315"})
-# os.environ.update({"HTTPS_PROXY":"socks5h://127.0.0.1:12315"})
+from huobi.client.market import MarketClient
+from plotly import graph_objects as go
+
+os.environ.update({"HTTP_PROXY":"socks5h://127.0.0.1:12315"})
+os.environ.update({"HTTPS_PROXY":"socks5h://127.0.0.1:12315"})
 market_client = MarketClient(url="https://api-aws.huobi.pro")
 
 CLOSE_MEAN_CHANGING_RATE = 0.20
@@ -45,6 +48,20 @@ def get_rate(target_df, types="close"):
     df = target_df.copy()
     df[f"{types}_rate"] = (df[types] - df[types].shift(1)) / df[types].shift(1)
     return df
+
+def draw_candle(df):
+    fig=go.Figure(
+        data=[
+            go.Candlestick(x=df.index, open=df['open'], close=df['close'], high=df['high'], low=df['low']),
+            go.Scatter(x=df.index, y=df["mean_5"], name="MA5" ),
+            go.Scatter(x=df.index, y=df["mean_13"], name="MA13"),
+            go.Scatter(x=df.index, y=df["mean_21"], name="MA21"),
+            go.Scatter(x=df.index, y=df["mean_60"], name="MA60"),
+            go.Scatter(x=df.index, y=df["mean_120"], name="MA120")
+        ], 
+        layout={'yaxis': {"fixedrange": False}})
+    fig.show()
+
 
 def get_mean_line(target_df):
     df = target_df.copy()
