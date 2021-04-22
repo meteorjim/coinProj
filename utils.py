@@ -2,6 +2,7 @@ __all__ = ["get_price", "get_mean_line", "custom_data_analyze_func", "get_rate",
 
 import datetime
 import os
+import sys
 
 import numpy as np
 import pandas as pd
@@ -9,8 +10,10 @@ from huobi.client.generic import GenericClient
 from huobi.client.market import MarketClient
 from plotly import graph_objects as go
 
-os.environ.update({"HTTP_PROXY":"socks5h://127.0.0.1:12315"})
-os.environ.update({"HTTPS_PROXY":"socks5h://127.0.0.1:12315"})
+if sys.platform == "win32":
+    os.environ.update({"HTTP_PROXY":"socks5h://127.0.0.1:12315"})
+    os.environ.update({"HTTPS_PROXY":"socks5h://127.0.0.1:12315"})
+    
 market_client = MarketClient(url="https://api-aws.huobi.pro")
 
 CLOSE_MEAN_CHANGING_RATE = 0.20
@@ -24,9 +27,9 @@ def get_symbol_list(protition=None):
     gc = GenericClient()
     result = gc.get_exchange_symbols()
     if protition:
-        return [each_result.symbol for each_result in result if "usdt" in each_result.symbol and each_result.state != "offline" and each_result.symbol_partition == protition]  
+        return [each_result.symbol for each_result in result if "usdt" in each_result.symbol and each_result.state != "offline" and "3" not in each_result.symbol and each_result.symbol_partition == protition]  
     else :
-        return [each_result.symbol for each_result in result if "usdt" in each_result.symbol and each_result.state != "offline"]
+        return [each_result.symbol for each_result in result if "usdt" in each_result.symbol and each_result.state != "offline" and "3" not in each_result.symbol]
 
 def get_price(symbol, period, size):
     raw_candle_data = market_client.get_candlestick(symbol, period=period, size=size)
