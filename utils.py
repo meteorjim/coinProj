@@ -4,11 +4,13 @@ import datetime
 import os
 import sys
 
+import redis
 import numpy as np
 import pandas as pd
 from huobi.client.generic import GenericClient
 from huobi.client.market import MarketClient
 from plotly import graph_objects as go
+
 
 if sys.platform == "win32":
     os.environ.update({"HTTP_PROXY":"socks5h://127.0.0.1:12315"})
@@ -18,6 +20,8 @@ market_client = MarketClient(url="https://api-aws.huobi.pro")
 
 CLOSE_MEAN_CHANGING_RATE = 0.20
 VOLUMES_MEAN_CHANGING_RATE = 3
+
+# redis_conn_pool = redis.ConnectionPool(host="172.19.1.70", password="redis_pass")
 
 
 def get_symbol_list(protition=None):
