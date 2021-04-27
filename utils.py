@@ -4,7 +4,6 @@ import datetime
 import os
 import sys
 
-import redis
 import numpy as np
 import pandas as pd
 from huobi.client.generic import GenericClient
