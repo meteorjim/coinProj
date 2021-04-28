@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from huobi.client.generic import GenericClient
 from huobi.client.market import MarketClient
+from huobi.client.account import AccountClient
 from plotly import graph_objects as go
 
 
@@ -20,8 +21,8 @@ market_client = MarketClient(url="https://api-aws.huobi.pro")
 CLOSE_MEAN_CHANGING_RATE = 0.20
 VOLUMES_MEAN_CHANGING_RATE = 3
 
-# redis_conn_pool = redis.ConnectionPool(host="172.19.1.70", password="redis_pass")
-
+# def get_account_info():
+#     account_client = AccountClient(api_key=g_api_key, secret_key=g_secret_key)
 
 def get_symbol_list(protition=None):
     """
