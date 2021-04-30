@@ -62,7 +62,7 @@ def fast_close(contract_code: str, volume: int, direction: str):
     method = "POST"
     url = "/linear-swap-api/v1/swap_lightning_close_position"
     resp = send_swap_requests(method, url, contract_code=contract_code, volume=int(volume), direction=direction)
-    print(resp.content.decode("utf8"))
+    # print(resp)
     if resp.get("status") != "ok":
         resp = fast_close(contract_code, volume, direction)
     return resp
