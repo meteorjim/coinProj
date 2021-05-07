@@ -12,7 +12,7 @@ from huobi.client.account import AccountClient
 from plotly import graph_objects as go
 
 
-if sys.platform == "win32":
+if sys.platform == "win32" or sys.platform == "darwin":
     os.environ.update({"HTTP_PROXY":"socks5h://127.0.0.1:12315"})
     os.environ.update({"HTTPS_PROXY":"socks5h://127.0.0.1:12315"})
     
